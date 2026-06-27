@@ -49,34 +49,6 @@ This application makes expense management simple by allowing users to keep track
 
 ---
 
-## API Endpoints
-
-### Get All Expenses
-
-```http
-GET /api/expenses
-```
-
-### Add Expense
-
-```http
-POST /api/expenses
-```
-
-### Update Expense
-
-```http
-PATCH /api/expenses/:id
-```
-
-### Delete Expense
-
-```http
-DELETE /api/expenses/:id
-```
-
----
-
 ## Future Improvements
 
 - User Authentication
