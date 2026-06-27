@@ -7,7 +7,7 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = process.env.MONGO_DB_URI;
 
 const client = new MongoClient(uri, {
@@ -25,11 +25,31 @@ async function run() {
     const database = client.db("expense-tracker");
     const expenseCollection = database.collection("expenses");
 
+    // expenses get method
+    app.get("/api/expenses", async (req, res) => {
+      const cursor = expenseCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     // expenses post method
     app.post("/api/expenses", async (req, res) => {
       const expenseData = req.body;
+      const updateExpenseData = { ...expenseData, createAt: new Date() };
 
-      const result = await expenseCollection.insertOne(expenseData);
+      const result = await expenseCollection.insertOne(updateExpenseData);
+      res.send(result);
+    });
+
+    // expense delete
+    app.delete("/api/expenses/:id", async (req, res) => {
+      const { id } = req.params;
+
+      const query = {
+        _id: new ObjectId(id),
+      };
+
+      const result = await expenseCollection.deleteOne(query);
       res.send(result);
     });
 
