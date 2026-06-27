@@ -41,6 +41,25 @@ async function run() {
       res.send(result);
     });
 
+    // expense patch method
+    app.patch("/api/expenses/:id", async (req, res) => {
+      const { id } = req.params;
+
+      const updateData = req.body;
+      const newUpdateData = {
+        ...updateData,
+        updateAt: new Date(),
+      };
+      console.log(id, "from backend");
+
+      const filter = { _id: new ObjectId(id) };
+
+      const update = { $set: { ...newUpdateData } };
+
+      const result = await expenseCollection.updateOne(filter, update);
+      res.send(result);
+    });
+
     // expense delete
     app.delete("/api/expenses/:id", async (req, res) => {
       const { id } = req.params;
