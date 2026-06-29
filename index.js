@@ -27,6 +27,8 @@ async function run() {
 
     // expenses get method
     app.get("/api/expenses", async (req, res) => {
+      if (req.query) {
+      }
       const cursor = expenseCollection.find();
       const result = await cursor.toArray();
       res.send(result);
